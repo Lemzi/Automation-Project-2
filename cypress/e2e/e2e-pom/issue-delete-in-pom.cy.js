@@ -5,11 +5,7 @@ import IssueModal from "../../pages/IssueModal";
 
 describe('Issue delete', () => {
   beforeEach(() => {
-    cy.visit('/');
-    cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
-    //open issue detail modal with title from line 16  
-    cy.contains(issueTitle).click();
-    });
+    BeforeEachTest();
   });
 
   //issue title, that we are testing with, saved into variable
@@ -32,3 +28,14 @@ describe('Issue delete', () => {
     IssueModal.ensureIssueIsVisibleOnBoard(issueTitle);
   });
 });
+
+
+function BeforeEachTest(){
+  //Creating an extra constant for the function itself
+  const issueTitle = 'This is an issue of type: Task.';
+  cy.visit('/');
+    cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
+    //open issue detail modal with title from line 16  
+    cy.contains(issueTitle).click();
+  });
+  }
