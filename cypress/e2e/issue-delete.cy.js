@@ -1,12 +1,8 @@
 describe('Issue task deletion', () => {
     beforeEach(() => {
-      cy.visit('/');
-      cy.url().should('eq', `${Cypress.env('baseUrl')}project`).then((url) => {
-        cy.visit(url + '/board');
-        cy.contains('This is an issue of type: Task.').click();
-        cy.get('[data-testid="modal:issue-details"]').should('be.visible')
-      });
-    });
+      BeforeEachTest();
+     });
+     
     it('Test Case 1: Issue Deletion:', () => {
         cy.get('[data-testid="icon:trash"]').click();
         cy.get('[data-testid="modal:confirm"]').should('be.visible');
@@ -41,3 +37,11 @@ describe('Issue task deletion', () => {
     });
 });
 
+function BeforeEachTest (){
+  cy.visit('/');
+      cy.url().should('eq', `${Cypress.env('baseUrl')}project`).then((url) => {
+        cy.visit(url + '/board');
+        cy.contains('This is an issue of type: Task.').click();
+        cy.get('[data-testid="modal:issue-details"]').should('be.visible')
+      });
+}
