@@ -2,12 +2,8 @@ import { faker } from '@faker-js/faker';
 
 describe('Issue create', () => {
   beforeEach(() => {
-    cy.visit('/');
-    cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
-    //System will already open issue creating modal in beforeEach block  
-    cy.visit(url + '/board?modal-issue-create=true');
-    });
-  });
+    BeforeEachTest();
+});
   
   it('Should create an issue and validate it successfully', () => {
     //System finds modal for creating issue and does next steps inside of it
@@ -171,3 +167,11 @@ describe('Issue create', () => {
      });
   });
 })
+
+function BeforeEachTest(){
+cy.visit('/');
+cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
+//System will already open issue creating modal in beforeEach block  
+cy.visit(url + '/board?modal-issue-create=true');
+  });
+};
