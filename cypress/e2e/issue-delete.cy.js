@@ -27,6 +27,7 @@ describe('Issue task deletion', () => {
      cy.get('[data-testid="modal:issue-details"]').should('not.exist')
      cy.contains('This is an issue of type: Task.').should('be.visible');
      cy.get('[data-testid="board-list:backlog').should('be.visible').and('have.length', '1').within(() => {
+      //Not checking reporter icon because reporter does not have one, only assignee.
         cy.get('[data-testid="list-issue"]')
           .should('have.length', '4')
           .first()
