@@ -1,17 +1,17 @@
 describe('Issue comments creating, editing and deleting', () => {
     beforeEach(() => {
-        cy.visit('/');
-        cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
-            cy.visit(url + '/board');
-            cy.contains('This is an issue of type: Task.').click();
+        BeforeEachTest();
         });
-    });
 
     const getIssueDetailsModal = () => cy.get('[data-testid="modal:issue-details"]');
+    const getCommentBacklog = () => cy.get('[data-testid="issue-comment"]');
 
-    it('Should create a comment successfully', () => {
-        const comment = 'TEST_COMMENT';
-
+    it('Should create, edit and delete a comment successfully', () => {
+        const comment = 'TEST COMMENT';
+        const previousComment = 'An old silent pond...';
+        const editedcomment = 'TEST_COMMENT_EDITED';
+        
+        //Adding a comment
         getIssueDetailsModal().within(() => {
             cy.contains('Add a comment...')
                 .click();
@@ -23,17 +23,12 @@ describe('Issue comments creating, editing and deleting', () => {
                 .should('not.exist');
 
             cy.contains('Add a comment...').should('exist');
-            cy.get('[data-testid="issue-comment"]').should('contain', comment);
+            getCommentBacklog().should('contain', comment);
         });
-    });
-
-    it('Should edit a comment successfully', () => {
-        const previousComment = 'An old silent pond...';
-        const comment = 'TEST_COMMENT_EDITED';
-
+        //Editing a comment
         getIssueDetailsModal().within(() => {
-            cy.get('[data-testid="issue-comment"]')
-                .first()
+            getCommentBacklog()
+                .eq(1)
                 .contains('Edit')
                 .click()
                 .should('not.exist');
@@ -41,19 +36,17 @@ describe('Issue comments creating, editing and deleting', () => {
             cy.get('textarea[placeholder="Add a comment..."]')
                 .should('contain', previousComment)
                 .clear()
-                .type(comment);
+                .type(editedcomment);
 
             cy.contains('button', 'Save')
                 .click()
                 .should('not.exist');
 
-            cy.get('[data-testid="issue-comment"]')
+                getCommentBacklog()
                 .should('contain', 'Edit')
-                .and('contain', comment);
+                .and('contain', editedcomment);
         });
-    });
-
-    it('Should delete a comment successfully', () => {
+        //Deleting a comment
         getIssueDetailsModal()
             .find('[data-testid="issue-comment"]')
             .contains('Delete')
@@ -65,7 +58,18 @@ describe('Issue comments creating, editing and deleting', () => {
             .should('not.exist');
 
         getIssueDetailsModal()
-            .find('[data-testid="issue-comment"]')
-            .should('not.exist');
+        .find('[data-testid="issue-comment"]')
+        .contains(comment)
+        .should('not.exist');
     });
 });
+
+function BeforeEachTest(){
+    //Creating an extra constant for the function itself
+    const issueTitle = 'This is an issue of type: Task.';
+    cy.visit('/');
+      cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
+      //open issue detail modal with title from line 16  
+      cy.contains(issueTitle).click();
+    });
+    }
