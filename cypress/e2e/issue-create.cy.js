@@ -116,7 +116,7 @@ describe('Issue create', () => {
       cy.get('[data-testid="icon:bug"]').should('be.visible');
     });
   });
-  it('Test Case 2: Random Data Plugin Issue Creation', () => {
+  it.only('Test Case 2: Random Data Plugin Issue Creation', () => {
 
     let title = faker.word.sample();
     let descr = faker.word.words(5);

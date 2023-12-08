@@ -53,7 +53,7 @@ describe('Issue comments creating, editing and deleting', () => {
             .click();
 
         cy.get('[data-testid="modal:confirm"]')
-            .contains('button', 'Delete comment')
+            .contains('button', 'Delete comment') 
             .click()
             .should('not.exist');
 
