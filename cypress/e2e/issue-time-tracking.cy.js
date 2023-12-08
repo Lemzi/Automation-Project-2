@@ -14,21 +14,20 @@ const TimeRemainingInput =()=> cy.contains('div', 'Time remaining (hours)').next
 const HoursRemaining =()=> cy.contains('div', 'Time tracking').next('div').find('5h remaining');
 
 
-describe('Time-tracking functionality tests of the issue', () => {
+describe('Time-tracking testing', () => {
     beforeEach(() => {
         OpeningNewIssueCreationWindow();
         });
 
         it('Should update type, status, assignees, reporter, priority successfully', () => {
-            //Creating a new ticket to get time estimation to 0
+            //Creating a new ticket to have time tracking in its default value ('0').
         CreatingNewTest();
 
         //Checking that there's no time added to the ticket by default
         NoTimeLogged();
         OriginalEstimateFieldIsEmpty();
         
-
-        //Adding time in estimate field but time should not be logged
+        //Adding time in estimate field and removing it
         cy.get(TimeField).click('').type('7');
         cy.contains('7h estimated')
         cy.get(TimeField).clear('').contains('7h estimated').should('not.exist');
@@ -55,11 +54,13 @@ describe('Time-tracking functionality tests of the issue', () => {
         cy.get('[data-testid="modal:tracking"]').within(() => {
             cy.contains('5h remaining').should('not.exist');
         });
-        cy.contains('button', 'Done').click().should('not.exist');
 
+        //confirming no time is logged and we're back at modal screen
+        cy.contains('button', 'Done').click().should('not.exist');
+        cy.get(issueDetailModal).should('be.visible')
+        NoTimeLogged();
     });
  });
-
 
 function CreatingNewTest () {
 cy.get('[data-testid="modal:issue-create"]').within(() => {
