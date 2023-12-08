@@ -19,8 +19,8 @@ describe('Time-tracking testing', () => {
         OpeningNewIssueCreationWindow();
         });
 
-        it('Should update type, status, assignees, reporter, priority successfully', () => {
-            //Creating a new ticket to have time tracking in its default value ('0').
+        it('Time tracker modifying within a ticket', () => {
+        //Creating a new ticket to have time tracking in its default value ('0').
         CreatingNewTest();
 
         //Checking that there's no time added to the ticket by default
